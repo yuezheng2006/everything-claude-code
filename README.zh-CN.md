@@ -372,6 +372,33 @@ cp -r everything-claude-code/skills/* ~/.claude/skills/
 
 ---
 
+### 🚀 选项 3：迁移脚本（用于自定义项目）
+
+用于具有自动迁移功能的项目特定定制：
+
+```bash
+# 克隆仓库
+git clone https://github.com/affaan-m/everything-claude-code.git
+cd everything-claude-code
+
+# 运行交互式迁移
+bash scripts/migrate-ecc.sh
+
+# 或非交互式运行到指定项目
+bash scripts/migrate-ecc.sh --force --scope project -l typescript -c agents -c commands -c rules /path/to/project
+```
+
+**功能：**
+- ✅ 将弃用的 hook 格式转换为官方 Claude Code 格式
+- ✅ 安装到 `.mcp.json`（项目范围）而不是 `.claude.json`
+- ✅ 支持本地化和英文回退（`-L zh-CN` 使用中文）
+- ✅ 与现有配置智能合并
+- ✅ 迁移前自动备份
+
+详见 [迁移指南](docs/zh-CN/MIGRATION_GUIDE.md)。
+
+---
+
 ## 🎯 关键概念
 
 ### 代理

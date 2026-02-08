@@ -477,6 +477,33 @@ Copy desired MCP servers from `mcp-configs/mcp-servers.json` to your `~/.claude.
 
 ---
 
+### 🚀 Option 3: Migration Script (For Custom Projects)
+
+For project-specific customization with automated migration:
+
+```bash
+# Clone the repo
+git clone https://github.com/affaan-m/everything-claude-code.git
+cd everything-claude-code
+
+# Run interactive migration
+bash scripts/migrate-ecc.sh
+
+# Or run non-interactively to a specific project
+bash scripts/migrate-ecc.sh --force --scope project -l typescript -c agents -c commands -c rules /path/to/project
+```
+
+**Features:**
+- ✅ Converts deprecated hook formats to official Claude Code format
+- ✅ Installs to `.mcp.json` (project-scoped) instead of `.claude.json`
+- ✅ Locale support with English fallback (`-L zh-CN` for Chinese)
+- ✅ Smart merging with existing configurations
+- ✅ Automatic backup before migration
+
+See [Migration Guide](docs/MIGRATION_GUIDE.md) for detailed documentation.
+
+---
+
 ## 🎯 Key Concepts
 
 ### Agents

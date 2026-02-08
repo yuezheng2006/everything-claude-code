@@ -16,6 +16,10 @@ const testFiles = [
   'hooks/hooks.test.js'
 ];
 
+const bashTestFiles = [
+  'scripts/migrate-ecc.test.sh'
+];
+
 console.log('╔══════════════════════════════════════════════════════════╗');
 console.log('║           Everything Claude Code - Test Suite            ║');
 console.log('╚══════════════════════════════════════════════════════════╝');
@@ -54,6 +58,44 @@ for (const testFile of testFiles) {
     console.log(err.stderr || '');
 
     // Parse results even on failure
+    const output = (err.stdout || '') + (err.stderr || '');
+    const passedMatch = output.match(/Passed:\s*(\d+)/);
+    const failedMatch = output.match(/Failed:\s*(\d+)/);
+
+    if (passedMatch) totalPassed += parseInt(passedMatch[1], 10);
+    if (failedMatch) totalFailed += parseInt(failedMatch[1], 10);
+  }
+}
+
+// Run bash test files
+for (const testFile of bashTestFiles) {
+  const testPath = path.join(testsDir, testFile);
+
+  if (!fs.existsSync(testPath)) {
+    console.log(`⚠ Skipping ${testFile} (file not found)`);
+    continue;
+  }
+
+  console.log(`\n━━━ Running ${testFile} (bash) ━━━`);
+
+  try {
+    const output = execSync(`bash "${testPath}"`, {
+      encoding: 'utf8',
+      stdio: ['pipe', 'pipe', 'pipe'],
+      timeout: 120000
+    });
+    console.log(output);
+
+    const passedMatch = output.match(/Passed:\s*(\d+)/);
+    const failedMatch = output.match(/Failed:\s*(\d+)/);
+
+    if (passedMatch) totalPassed += parseInt(passedMatch[1], 10);
+    if (failedMatch) totalFailed += parseInt(failedMatch[1], 10);
+
+  } catch (err) {
+    console.log(err.stdout || '');
+    console.log(err.stderr || '');
+
     const output = (err.stdout || '') + (err.stderr || '');
     const passedMatch = output.match(/Passed:\s*(\d+)/);
     const failedMatch = output.match(/Failed:\s*(\d+)/);
